@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Vidly.Models.Movie>
+
+@{ ViewBag.Title = "Movies";
+   Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+
+<h2>Movies</h2>
+<p>
+    @Html.ActionLink("New Movie", "New", "Movies", null, new { @class = "btn btn-primary" })
+</p>
+<table id="movies" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Movie</th>
+            <th>Genre</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    @*
+        <tbody>
+                    @foreach (var movie in Model)
+                    {
+            <tr>
+                <td>@Html.ActionLink(movie.Name, "Edit", "Movies", new { id = movie.Id }, null)</td>
+                <td>@movie.Genre.Name</td>
+                <td>
+                    <button data-movies-id="@movie.Id" class="btn-link js-delete">Delete</button>
+                </td>
+
+            </tr>}
+        <tbody/>
+    *@
+</table>
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var table = $("#movies").DataTable({
+                ajax: {
+                    url: "/api/movies",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "Name",
+                        render: function (data, type, movie) {
+                            return "<a href='/movies/edit/" + movie.Id + "'>" + movie.Name + "</a>";
+                        }
+                    },
+                    {
+                        data: "Genre.Name"
+                    },
+                    {
+                        data: "Id",
+                        render: function (data) {
+                            return "<button class='btn-link js-delete' data-movies-id=" + data + ">Delete</button>";
+                        }
+                    }
+                ]
+            });
+
+            $("#movies").on("click", ".js-delete", function () {
+                var button = $(this);
+
+                bootbox.confirm("<div style='color:red;'><h6>want to delete or not ?</h6></div>", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/movies/" + button.attr("data-movies-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table.row(button.parents("tr")).remove().draw();
+                                button.parents("tr").remove();
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
+    </script>
+}
