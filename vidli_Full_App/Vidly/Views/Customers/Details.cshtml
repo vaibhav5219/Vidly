@@ -1,0 +1,28 @@
+﻿/.@model Vidly.ViewModels.CustomerDetailFormViewModel
+
+@{
+    ViewBag.Title = Model.Customer.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Customer.Name</h2>
+<ul>
+    <li>Membership Type: @Model.Customer.MembershipType</li>
+    @if (Model.Customer.Birthdate.HasValue)
+    {
+<li>Birthdate: @Model.Customer.Birthdate.Value.ToShortDateString()</li>}
+    <li>
+        Movies :
+        @foreach (var movie in Model.Movies)
+        {
+            @movie.Name <br />
+        }
+    </li>
+    <li>
+        Rentals :
+        @foreach (var rental in Model.Rentals)
+        {
+            @rental.Movie.Name <br />
+        }
+    </li>
+</ul>

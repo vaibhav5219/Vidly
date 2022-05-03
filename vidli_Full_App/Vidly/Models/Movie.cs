@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Vidly.Models
@@ -31,5 +32,10 @@ namespace Vidly.Models
         public byte NumberInStock { get; set; }
         
         public byte NumberAvailable { get; set; }
+
+        public static implicit operator List<object>(Movie v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

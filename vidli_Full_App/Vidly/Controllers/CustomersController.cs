@@ -67,17 +67,25 @@ namespace Vidly.Controllers
             // var customers = _context.Customers.Include(c => c.MembershipType).ToList();
 
              return View();
-            // return View();
         }
 
         public ActionResult Details(int id)
-        {
-            var customer = _context.Customers.Include(c => c.MembershipType).SingleOrDefault(c => c.Id == id);
+        {// Developement in process
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+            IEnumerable<Rental> rentals = _context.Rentals.Include(m => m.Movie).Where(c => c.Id == id);
+            IEnumerable<Movie> movies = _context.Movies.Include(m => m.Genre).Where(m => m.Id == id);
+
+            var viewModel = new CustomerDetailFormViewModel
+            {
+                Customer = customer,
+                Movies = movies,
+                Rentals = rentals
+            };
 
             if (customer == null)
                 return HttpNotFound();
 
-            return View(customer);
+            return View(viewModel);
         }
 
         public ActionResult Edit(int id)
