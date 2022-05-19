@@ -1,5 +1,4 @@
-# Vidly
-Video Rental Application 	
+# Vidly - Video Rental Application 	
 
 In this we have two appliction	
 
