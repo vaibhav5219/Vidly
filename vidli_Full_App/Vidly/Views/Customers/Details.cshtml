@@ -15,13 +15,6 @@
         <li>Birthdate: @Model.customer.Birthdate.ToShortDateString()</li>
     }
     <li>
-        Movies :
-        @foreach (var movie in Model.movies)
-        {
-            @movie.Name <br />
-        }
-    </li>
-    <li>
         Rentals :
         @{
             var i = 1;
