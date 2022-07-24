@@ -557,6 +557,7 @@
     <Content Include="Views\Movies\MovieForm.cshtml" />
     <Content Include="Views\Rentals\New.cshtml" />
     <Content Include="Views\Rentals\RentalForm.cshtml" />
+    <Content Include="Views\Rentals\ConfirmPage.cshtml" />
     <None Include="Web.Testing.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "ConfermPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Confirmation Page</h2>
+<br />
+
+@if (ViewBag.Success)
+{
+    <h3>Your booking has completed</h3>
+}
+else
+{
+    <h3>Your booking has not been completed</h3>
+}
+
+<li>Number of available movie = @ViewBag.NumberAvail</li>
+<li>Success = <b> @ViewBag.Success </b></li>
+
+<br />
+<br />
+
+@Html.ActionLink("Back to Movies List", "New", "Rentals")
+
