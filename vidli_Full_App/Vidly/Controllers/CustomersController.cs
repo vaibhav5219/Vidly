@@ -5,10 +5,11 @@ using System.Web.Mvc;
 using Vidly.Models;
 using Vidly.ViewModels;
 using System.Collections.Generic;
+using System.Dynamic;
 
 namespace Vidly.Controllers
 {
-    
+    [AllowAnonymous]
     public class CustomersController : Controller
     {
         private ApplicationDbContext _context;
@@ -72,20 +73,24 @@ namespace Vidly.Controllers
         public ActionResult Details(int id)
         {// Developement in process
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
-            IEnumerable<Rental> rentals = _context.Rentals.Include(m => m.Movie).Where(c => c.Id == id);
+            IEnumerable<Rental> rentals = _context.Rentals.Include(m => m.Movie).Include(m => m.Customer).ToList().Where(r => r.Customer.Id == customer.Id);
             IEnumerable<Movie> movies = _context.Movies.Include(m => m.Genre).Where(m => m.Id == id);
 
-            var viewModel = new CustomerDetailFormViewModel
-            {
-                Customer = customer,
-                Movies = movies,
-                Rentals = rentals
-            };
-
+            //var viewModel = new CustomerDetailFormViewModel
+            //{
+            //    Customer = customer,
+            //    Movies = movies,
+            //    Rentals = rentals
+            //};
             if (customer == null)
                 return HttpNotFound();
 
-            return View(viewModel);
+            dynamic model = new ExpandoObject();
+            model.customer = customer;
+            model.movies = movies;
+            model.rentals = rentals;
+
+            return View(model);
         }
 
         public ActionResult Edit(int id)

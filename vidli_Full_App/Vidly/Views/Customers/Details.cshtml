@@ -1,31 +1,37 @@
-﻿@model Vidly.ViewModels.CustomerDetailFormViewModel
+﻿@model dynamic
+@using Vidly.ViewModels
 
 @{
-    ViewBag.Title = Model.Customer.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <hr />
-<h2>@Model.Customer.Name</h2>
+<h2>@Model.customer.Name</h2>
 <hr />
-
 <ul>
-    <li>Membership Type: @Model.Customer.MembershipType</li>
-    @if (Model.Customer.Birthdate.HasValue)
+    <li>Membership Type: @Model.customer.MembershipType</li>
+    @if (true)
     {
-<li>Birthdate: @Model.Customer.Birthdate.Value.ToShortDateString()</li>}
+        <li>Birthdate: @Model.customer.Birthdate.ToShortDateString()</li>
+    }
     <li>
         Movies :
-        @foreach (var movie in Model.Movies)
+        @foreach (var movie in Model.movies)
         {
             @movie.Name <br />
         }
     </li>
     <li>
         Rentals :
-        @foreach (var rental in Model.Rentals)
-        {
-            @rental.Movie.Name <br />
+        @{
+            var i = 1;
+            foreach (var rental in Model.rentals)
+            {
+                <h4>@i).</h4>
+                <h5>Movie Name :  @rental.Movie.Name </h5> 
+                <h5>Date Rented : @rental.DateRented </h5>
+                {i = i + 1;}
+            }
         }
     </li>
 </ul>
