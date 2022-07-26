@@ -13,7 +13,7 @@ using AttributeRouting.Web.Http;
 
 namespace Vidly.Controllers.Api
 {
-    [Route("api/Customers/")]
+    [RoutePrefix("api/Customers")]
     public class CustomersController : ApiController
     {
         private ApplicationDbContext _context;
@@ -86,9 +86,8 @@ namespace Vidly.Controllers.Api
         }
 
         [HttpGet]
-        [GET("/api/Customers/Details/{id}")]
-        [Route("details")]
-        public IHttpActionResult Details(int id)
+        [Route("Details/{id}")]
+        public IHttpActionResult Details(int id=0)
         {
             if(id <= 0)
             {
