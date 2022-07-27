@@ -294,12 +294,17 @@
     <Compile Include="Migrations\202110190757134_AddNumberAvailableToMovie.Designer.cs">
       <DependentUpon>202110190757134_AddNumberAvailableToMovie.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202207261655213_AddImagesPathTable.cs" />
+    <Compile Include="Migrations\202207261655213_AddImagesPathTable.Designer.cs">
+      <DependentUpon>202207261655213_AddImagesPathTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Genre.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ImagesPath.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MembershipType.cs" />
     <Compile Include="Models\Movie.cs" />
@@ -566,6 +571,7 @@
     <Content Include="Views\Customers\CustomerForm.cshtml" />
     <Content Include="Views\Movies\CustomerForm.cshtml" />
     <Content Include="Views\Movies\ReadOnlyList.cshtml" />
+    <Content Include="Views\Home\NewHome.cshtml" />
     <None Include="Views\Movies\List.cshtml" />
     <Content Include="Views\Movies\MovieForm.cshtml" />
     <Content Include="Views\Rentals\New.cshtml" />
@@ -577,6 +583,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -648,6 +655,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202110190757134_AddNumberAvailableToMovie.resx">
       <DependentUpon>202110190757134_AddNumberAvailableToMovie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202207261655213_AddImagesPathTable.resx">
+      <DependentUpon>202207261655213_AddImagesPathTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

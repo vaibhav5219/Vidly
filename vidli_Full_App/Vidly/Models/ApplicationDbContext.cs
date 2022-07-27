@@ -12,6 +12,7 @@ namespace Vidly.Models
         public DbSet<Genre> Genres { get; set; }
         public object Movie { get; internal set; }
         public DbSet<Rental> Rentals { get; set; }
+        public DbSet<ImagesPath> ImagesPaths { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
