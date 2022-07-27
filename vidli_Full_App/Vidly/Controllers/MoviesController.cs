@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Vidly.Migrations;
 using Vidly.Models;
 using Vidly.ViewModels;
+using System.IO;
 
 namespace Vidly.Controllers
 {
@@ -100,31 +101,37 @@ namespace Vidly.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Save(Movie movie)
+        public ActionResult Save(MovieFormViewModel movieFormViewModel)
         {
             if (!ModelState.IsValid) 
             {
                 var viewmodel = new MovieFormViewModel
                 {
-                    Movie = movie,
+                    Movie = movieFormViewModel.Movie,
                     Genres = _context.Genres.ToList()
-                
                 };
                 return View ("MovieForm",viewmodel);
-            
             }
-            if (movie.Id == 0)
+            if (movieFormViewModel.Movie.Id == 0 && movieFormViewModel.file != null)
             {
-                movie.DateAdded = DateTime.Now;
-                _context.Movies.Add(movie);
+                movieFormViewModel.Movie.DateAdded = DateTime.Now;
+
+                // file name add in db and pic store in folder
+                string path = Server.MapPath("~/Images");
+                string fileName = Path.GetFileName(movieFormViewModel.file.FileName);
+                string fullPath = Path.Combine(path, fileName);
+                
+                movieFormViewModel.file.SaveAs(fullPath);
+
+                _context.Movies.Add(movieFormViewModel.Movie);
             }
             else
             {
-                var movieInDb = _context.Movies.Single(m => m.Id == movie.Id);
-                movieInDb.Name = movie.Name;
-                movieInDb.GenreId = movie.GenreId;
-                movieInDb.NumberInStock = movie.NumberInStock;
-                movieInDb.ReleaseDate = movie.ReleaseDate;
+                var movieInDb = _context.Movies.Single(m => m.Id == movieFormViewModel.Movie.Id);
+                movieInDb.Name = movieFormViewModel.Movie.Name;
+                movieInDb.GenreId = movieFormViewModel.Movie.GenreId;
+                movieInDb.NumberInStock = movieFormViewModel.Movie.NumberInStock;
+                movieInDb.ReleaseDate = movieFormViewModel.Movie.ReleaseDate;
             }
 
             _context.SaveChanges();
