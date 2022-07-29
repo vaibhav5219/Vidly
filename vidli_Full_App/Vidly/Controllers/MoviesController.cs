@@ -7,6 +7,7 @@ using Vidly.Migrations;
 using Vidly.Models;
 using Vidly.ViewModels;
 using System.IO;
+using System.Web;
 
 namespace Vidly.Controllers
 {
@@ -112,18 +113,22 @@ namespace Vidly.Controllers
                 };
                 return View ("MovieForm",viewmodel);
             }
+            // file name add in db and pic store in folder
+            string path = Server.MapPath("~/Images");
+            string fileName = Path.GetFileName(movieFormViewModel.file.FileName);
+            string fullPath = Path.Combine(path, fileName);
+
             if (movieFormViewModel.Movie.Id == 0 && movieFormViewModel.file != null)
             {
                 movieFormViewModel.Movie.DateAdded = DateTime.Now;
 
-                // file name add in db and pic store in folder
-                string path = Server.MapPath("~/Images");
-                string fileName = Path.GetFileName(movieFormViewModel.file.FileName);
-                string fullPath = Path.Combine(path, fileName);
-                
-                movieFormViewModel.file.SaveAs(fullPath);
-
                 _context.Movies.Add(movieFormViewModel.Movie);
+                _context.SaveChanges();
+
+                int Movieid = movieFormViewModel.Movie.Id;
+                
+                //Image Saver
+                ImageController.SaveImage(fullPath,movieFormViewModel.file, Movieid);
             }
             else
             {
@@ -132,9 +137,12 @@ namespace Vidly.Controllers
                 movieInDb.GenreId = movieFormViewModel.Movie.GenreId;
                 movieInDb.NumberInStock = movieFormViewModel.Movie.NumberInStock;
                 movieInDb.ReleaseDate = movieFormViewModel.Movie.ReleaseDate;
-            }
 
-            _context.SaveChanges();
+                //Image Saver
+                ImageController.SaveImage(fullPath, movieFormViewModel.file, movieFormViewModel.Movie.Id);
+                
+                _context.SaveChanges();
+            }
 
             return RedirectToAction("Index", "Movies");
         }

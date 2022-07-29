@@ -196,6 +196,7 @@
     <Compile Include="Controllers\Api\IHttpActionResult.cs" />
     <Compile Include="Controllers\Api\MoviesController.cs" />
     <Compile Include="Controllers\Api\NewRentalsController.cs" />
+    <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\RentalsController.cs" />
     <Compile Include="Dtos\CostomersDto.cs" />
     <Compile Include="Dtos\CustomerDetailsDto.cs" />
@@ -297,6 +298,14 @@
     <Compile Include="Migrations\202207261655213_AddImagesPathTable.cs" />
     <Compile Include="Migrations\202207261655213_AddImagesPathTable.Designer.cs">
       <DependentUpon>202207261655213_AddImagesPathTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202207281420049_AddCustomerIdToImagesPathTable.cs" />
+    <Compile Include="Migrations\202207281420049_AddCustomerIdToImagesPathTable.Designer.cs">
+      <DependentUpon>202207281420049_AddCustomerIdToImagesPathTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202207281455539_AddMovieIdToImagesPathTable.cs" />
+    <Compile Include="Migrations\202207281455539_AddMovieIdToImagesPathTable.Designer.cs">
+      <DependentUpon>202207281455539_AddMovieIdToImagesPathTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -658,6 +667,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202207261655213_AddImagesPathTable.resx">
       <DependentUpon>202207261655213_AddImagesPathTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202207281420049_AddCustomerIdToImagesPathTable.resx">
+      <DependentUpon>202207281420049_AddCustomerIdToImagesPathTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202207281455539_AddMovieIdToImagesPathTable.resx">
+      <DependentUpon>202207281455539_AddMovieIdToImagesPathTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

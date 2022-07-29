@@ -76,6 +76,13 @@ namespace Vidly.Controllers
             IEnumerable<Rental> rentals = _context.Rentals.Include(m => m.Movie).Include(m => m.Customer).ToList().Where(r => r.Customer.Id == customer.Id);
             IEnumerable<Movie> movies = _context.Movies.Include(m => m.Genre).Where(m => m.Id == id);
 
+            List<ImagesPath> image_path = new List<ImagesPath>();
+            foreach(var movie in movies)
+            {
+                ImagesPath imagesPaths = _context.ImagesPaths.SingleOrDefault(m => m.MovieId == movie.Id);
+                image_path.Add(imagesPaths);
+            }
+            IEnumerable<ImagesPath> imagepath = image_path;
             //var viewModel = new CustomerDetailFormViewModel
             //{
             //    Customer = customer,
@@ -89,6 +96,7 @@ namespace Vidly.Controllers
             model.customer = customer;
             model.movies = movies;
             model.rentals = rentals;
+            model.imagesPath = image_path;
 
             return View(model);
         }
