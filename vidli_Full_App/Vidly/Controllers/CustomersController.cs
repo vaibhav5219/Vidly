@@ -74,21 +74,31 @@ namespace Vidly.Controllers
         {// Developement in process
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
             IEnumerable<Rental> rentals = _context.Rentals.Include(m => m.Movie).Include(m => m.Customer).ToList().Where(r => r.Customer.Id == customer.Id);
-            IEnumerable<Movie> movies = _context.Movies.Include(m => m.Genre).Where(m => m.Id == id);
+            //IEnumerable<Movie> movies = _context.Movies.Include(m => m.Genre).Where(m => m.Id == id);
 
-            //var viewModel = new CustomerDetailFormViewModel
-            //{
-            //    Customer = customer,
-            //    Movies = movies,
-            //    Rentals = rentals
-            //};
+            List<ImagesPath> image_path = new List<ImagesPath>();
+            foreach(var rental in rentals)
+            {
+                try
+                {
+                    ImagesPath imagesPaths = _context.ImagesPaths.Where(m => m.MovieId == rental.Movie.Id).ToList()[0];
+                    image_path.Add(imagesPaths);
+                }
+                catch 
+                {
+                    ImagesPath imageP = new ImagesPath();
+                    imageP.MovieId = rental.Movie.Id;
+                    imageP.ImagePath = @"\Images\Vidly.png";
+                    image_path.Add(imageP); 
+                }
+            }
             if (customer == null)
                 return HttpNotFound();
 
             dynamic model = new ExpandoObject();
             model.customer = customer;
-            model.movies = movies;
             model.rentals = rentals;
+            model.imagesPath = image_path;
 
             return View(model);
         }

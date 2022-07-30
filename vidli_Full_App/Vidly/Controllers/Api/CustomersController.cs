@@ -8,14 +8,16 @@ using System.Net.Http;
 using System.Web.Http;
 using Vidly.App_Start;
 using Vidly.Models;
-
+using Vidly.Dtos;
+using AttributeRouting.Web.Http;
 
 namespace Vidly.Controllers.Api
 {
+    [RoutePrefix("api/Customers")]
     public class CustomersController : ApiController
     {
         private ApplicationDbContext _context;
-        public CustomersController() 
+        public CustomersController()
         {
             _context = new ApplicationDbContext();
         }
@@ -29,7 +31,7 @@ namespace Vidly.Controllers.Api
 
             if (!String.IsNullOrWhiteSpace(query))
                 customerQuery = customerQuery.Where(c => c.Name.Contains(query));
-                
+
             var customerDtos = customerQuery
                 .ToList()
                 .Select(Mapper.Map<Customer, CustomersDto>);
@@ -47,7 +49,7 @@ namespace Vidly.Controllers.Api
         }
 
         [HttpPost]
-        public CustomersDto CreateCustomer(CustomersDto customerdto) 
+        public CustomersDto CreateCustomer(CustomersDto customerdto)
         {
             if (!ModelState.IsValid)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
@@ -58,7 +60,7 @@ namespace Vidly.Controllers.Api
         }
 
         [HttpPut]
-        public void UpdateCustomer(int id,CustomersDto customerdto) 
+        public void UpdateCustomer(int id, CustomersDto customerdto)
         {
 
             var customerdb = _context.Customers.SingleOrDefault(c => c.Id == id);
@@ -66,21 +68,42 @@ namespace Vidly.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
 
             Mapper.Map(customerdto, customerdb);
-            
-            
+
+
             _context.SaveChanges();
         }
 
         [HttpDelete]
-         public void Delete(int id) 
+        public void Delete(int id)
         {
             var customerdb = _context.Customers.SingleOrDefault(c => c.Id == id);
             if (customerdb == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
 
-            
+
             _context.Customers.Remove(customerdb);
             _context.SaveChanges();
+        }
+
+        [HttpGet]
+        [Route("Details/{id}")]
+        public IHttpActionResult Details(int id=0)
+        {
+            if(id <= 0)
+            {
+                id = 1;
+            }
+            CustomerDetailsDto customerDetailsDto = new CustomerDetailsDto();
+
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+            IEnumerable<Rental> rentals = _context.Rentals.Include(m => m.Movie).Include(m => m.Customer).ToList().Where(r => r.Customer.Id == customer.Id);
+            IEnumerable<Movie> movies = _context.Movies.Include(m => m.Genre).Where(m => m.Id == id);
+
+            customerDetailsDto.Customer = customer;
+            customerDetailsDto.Movies = movies;
+            customerDetailsDto.Rentals = rentals;
+
+            return Ok(customerDetailsDto);
         }
     }
 }

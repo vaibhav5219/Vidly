@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Web;
 using Vidly.Migrations;
 using Vidly.Models;
 
@@ -18,7 +19,8 @@ namespace Vidly.ViewModels
                 return "New Movie";
             }
         }
-
         public Genres Genre { get; internal set; }
+
+        public HttpPostedFileBase file { get; set; }
     }
 }
