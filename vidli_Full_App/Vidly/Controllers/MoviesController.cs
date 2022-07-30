@@ -126,9 +126,11 @@ namespace Vidly.Controllers
                 _context.SaveChanges();
 
                 int Movieid = movieFormViewModel.Movie.Id;
-                
+
                 //Image Saver
-                ImageController.SaveImage(fullPath,movieFormViewModel.file, Movieid);
+                string relativePath = "/Images";
+                ImageController.SaveImage(relativePath+"/"+fileName, Movieid);
+                movieFormViewModel.file.SaveAs(fullPath);  // save image in full path
             }
             else
             {
@@ -139,8 +141,10 @@ namespace Vidly.Controllers
                 movieInDb.ReleaseDate = movieFormViewModel.Movie.ReleaseDate;
 
                 //Image Saver
-                ImageController.SaveImage(fullPath, movieFormViewModel.file, movieFormViewModel.Movie.Id);
-                
+                string relativePath = "/Images";  // relative path
+                ImageController.SaveImage(relativePath+"/"+fileName, movieFormViewModel.Movie.Id);
+                movieFormViewModel.file.SaveAs(fullPath);  // save image in full path
+
                 _context.SaveChanges();
             }
 
