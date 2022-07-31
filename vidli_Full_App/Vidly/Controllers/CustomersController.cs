@@ -70,8 +70,13 @@ namespace Vidly.Controllers
              return View();
         }
 
-        public ActionResult Details(int id)
-        {// Developement in process
+        public ActionResult Details(int? id)
+        {
+            if(id == null || id <=0)
+            {
+                return HttpNotFound();
+            }
+
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
             IEnumerable<Rental> rentals = _context.Rentals.Include(m => m.Movie).Include(m => m.Customer).ToList().Where(r => r.Customer.Id == customer.Id);
             //IEnumerable<Movie> movies = _context.Movies.Include(m => m.Genre).Where(m => m.Id == id);

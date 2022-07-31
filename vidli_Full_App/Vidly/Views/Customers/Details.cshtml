@@ -16,7 +16,6 @@
     }
     Rentals : <hr/>
     <li>
-
         @{
             var i = 0;
             foreach (var rental in Model.rentals)
@@ -38,7 +37,9 @@
                                 <li class="list-group-item">Vestibulum at eros</li>
                             </ul>
                             <div class="card-body">
-                                <h5> <a href="#" class="card-link btn-primary btn-lg"><b> Go To Card Link </b></a> </h5>
+
+                                <!--<h5> <a href="~/Videos/ShowVideo/" +  rental.Movie.Id class="card-link btn-primary btn-lg"><b> Go To Card Link </b></a> </h5> -->
+                                @Html.ActionLink((string)rental.Movie.Name, "ShowVideo", "Videos",new { id = rental.Movie.Id }, null)
                                 <hr />
                             </div>
                         </div>

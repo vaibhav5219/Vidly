@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Video";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div>
+        <div class="col-sm-4 col-md-4 col-xs-12">
+            <div class="titile" style="width:250px;">
+                <div class="video-frame">
+                    <video style="width:700px; height:500px;" controls>
+                        <source src="@Url.Content(ViewBag.VideosPaths.VideoPath)" type="video/mp4" />
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

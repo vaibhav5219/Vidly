@@ -596,11 +596,7 @@
     <Content Include="Views\Rentals\New.cshtml" />
     <Content Include="Views\Rentals\RentalForm.cshtml" />
     <Content Include="Views\Rentals\ConfirmPage.cshtml" />
-    <Content Include="Views\VideosPaths\Create.cshtml" />
-    <Content Include="Views\VideosPaths\Delete.cshtml" />
-    <Content Include="Views\VideosPaths\Details.cshtml" />
-    <Content Include="Views\VideosPaths\Edit.cshtml" />
-    <Content Include="Views\VideosPaths\Index.cshtml" />
+    <Content Include="Views\Videos\Index.cshtml" />
     <None Include="Web.Testing.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -609,7 +605,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Images\" />
     <Folder Include="Videos\" />
-    <Folder Include="Views\Videos\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
