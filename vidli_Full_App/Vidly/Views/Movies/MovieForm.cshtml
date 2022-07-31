@@ -6,12 +6,12 @@
 
 <h2>@Model.Title</h2>
 @Html.ValidationSummary()
-@using (Html.BeginForm("Save", "Movies",FormMethod.Post ,new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Save", "Movies", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="form-group">
         @Html.LabelFor(m => m.Movie.Name)
         @Html.TextBoxFor(m => m.Movie.Name, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m=>m.Movie.Name)
+        @Html.ValidationMessageFor(m => m.Movie.Name)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Movie.ReleaseDate)
@@ -35,19 +35,27 @@
     </div>
     <div>
         <div class="mb-3">
-            @Html.LabelFor(m => m.Movie.GenreId)
+            @Html.LabelFor(m => m.file)
             @Html.TextBoxFor(m => m.file, new { Type = "file", @class = "form-control" })
             @Html.ValidationMessageFor(m => m.file)
         </div>
-        <br/>
+        <br />
+    </div>
+    <div>
+        <div class="mb-3">
+            @Html.LabelFor(m => m.videoFile)
+            @Html.TextBoxFor(m => m.videoFile, new { Type = "file", @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.videoFile)
+        </div>
+        <br />
     </div>
 
     @Html.HiddenFor(m => m.Movie.Id)
     @Html.AntiForgeryToken()
     <button type="submit" class="btn btn-primary">Save</button>
 }
- @section scripts
+@section scripts
     {
-      @Scripts.Render("~/ bundles / jqueryval")
-    }
+    @Scripts.Render("~/ bundles / jqueryval")
+}
 

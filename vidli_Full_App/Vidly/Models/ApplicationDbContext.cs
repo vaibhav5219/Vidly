@@ -13,6 +13,7 @@ namespace Vidly.Models
         public object Movie { get; internal set; }
         public DbSet<Rental> Rentals { get; set; }
         public DbSet<ImagesPath> ImagesPaths { get; set; }
+        public DbSet<VideosPath> videosPaths { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

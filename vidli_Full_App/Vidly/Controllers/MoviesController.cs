@@ -113,10 +113,15 @@ namespace Vidly.Controllers
                 };
                 return View ("MovieForm",viewmodel);
             }
+
             // file name add in db and pic store in folder
             string path = Server.MapPath("~/Images");
             string fileName = Path.GetFileName(movieFormViewModel.file.FileName);
             string fullPath = Path.Combine(path, fileName);
+
+            // Getting the video path
+            string videoFileName = Path.GetFileName(movieFormViewModel.videoFile.FileName);
+            
 
             if (movieFormViewModel.Movie.Id == 0 && movieFormViewModel.file != null)
             {
@@ -128,9 +133,14 @@ namespace Vidly.Controllers
                 int Movieid = movieFormViewModel.Movie.Id;
 
                 //Image Saver
-                string relativePath = "/Images";
-                ImageController.SaveImage(relativePath+"/"+fileName, Movieid);
+                string relativePath = "/Images/";
+                ImageController.SaveImage(relativePath+fileName, Movieid);
                 movieFormViewModel.file.SaveAs(fullPath);  // save image in full path
+
+                //saving video path in db
+                VideosController.Create(movieFormViewModel.videoFile,Movieid);
+                // Saving video in video folder
+                movieFormViewModel.videoFile.SaveAs(Server.MapPath("/Videos/" + videoFileName));
             }
             else
             {
@@ -141,9 +151,14 @@ namespace Vidly.Controllers
                 movieInDb.ReleaseDate = movieFormViewModel.Movie.ReleaseDate;
 
                 //Image Saver
-                string relativePath = "/Images";  // relative path
-                ImageController.SaveImage(relativePath+"/"+fileName, movieFormViewModel.Movie.Id);
+                string relativePath = "/Images/";  // relative path
+                ImageController.SaveImage(relativePath+fileName, movieFormViewModel.Movie.Id);
                 movieFormViewModel.file.SaveAs(fullPath);  // save image in full path
+
+                //saving video path in db
+                VideosController.Create(movieFormViewModel.videoFile, movieFormViewModel.Movie.Id);
+                // Saving video in video folder
+                movieFormViewModel.videoFile.SaveAs(Server.MapPath("/Videos/" + videoFileName));
 
                 _context.SaveChanges();
             }
