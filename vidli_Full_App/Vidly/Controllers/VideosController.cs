@@ -11,7 +11,6 @@ using Vidly.Models;
 
 namespace Vidly.Controllers
 {
-    [AllowAnonymous]
     [RoutePrefix("/Videos")]
     public class VideosController : Controller
     {

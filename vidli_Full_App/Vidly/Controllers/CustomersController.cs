@@ -9,7 +9,7 @@ using System.Dynamic;
 
 namespace Vidly.Controllers
 {
-    [AllowAnonymous]
+    [Authorize(Roles = RoleName.CanManageMovies)]
     public class CustomersController : Controller
     {
         private ApplicationDbContext _context;
@@ -69,7 +69,6 @@ namespace Vidly.Controllers
 
              return View();
         }
-
         public ActionResult Details(int? id)
         {
             if(id == null || id <=0)
@@ -107,7 +106,6 @@ namespace Vidly.Controllers
 
             return View(model);
         }
-
         public ActionResult Edit(int id)
         {
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
