@@ -198,23 +198,23 @@ namespace Vidly.Controllers
             int customerId = customerAspNetUser.CustomerId;
 
             var customer = _context.Customers.SingleOrDefault(c => c.Id == customerId);
-            IEnumerable<Rental> rentals = _context.Rentals.Include(m => m.Movie).Include(m => m.Customer).ToList().Where(r => r.Customer.Id == customer.Id);
-      
+           IEnumerable<Movie> movies = _context.Movies.Include(m => m.Genre).ToList();
+
             if (customer == null)
                 return View("ReadOnlyList");
 
             List<ImagesPath> image_path = new List<ImagesPath>();
-            foreach (var rental in rentals)
+            foreach (var movie in movies)
             {
                 try
                 {
-                    ImagesPath imagesPaths = _context.ImagesPaths.Where(m => m.MovieId == rental.Movie.Id).ToList()[0];
+                    ImagesPath imagesPaths = _context.ImagesPaths.Where(m => m.MovieId == movie.Id).ToList()[0];
                     image_path.Add(imagesPaths);
                 }
                 catch
                 {
                     ImagesPath imageP = new ImagesPath();
-                    imageP.MovieId = rental.Movie.Id;
+                    imageP.MovieId = movie.Id;
                     imageP.ImagePath = @"\Images\Vidly.png";
                     image_path.Add(imageP);
                 }
@@ -222,7 +222,7 @@ namespace Vidly.Controllers
 
             dynamic model = new ExpandoObject();
             model.customer = customer;
-            model.rentals = rentals;
+            model.movies = movies;
             model.imagesPath = image_path;
 
             return View("VideosList", model);
