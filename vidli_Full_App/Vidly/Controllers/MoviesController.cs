@@ -184,21 +184,21 @@ namespace Vidly.Controllers
             // Rent option
             // play option
             CustomerAspNetUser customerAspNetUser = new CustomerAspNetUser();
+            int customerId;
+
             string userId = User.Identity.GetUserId();
             try
             {
                 customerAspNetUser = _context.customerAspNetUsers.FirstOrDefault(c => c.AspNetUserId == userId);
+                customerId = customerAspNetUser.CustomerId;
             }
             catch
             {
                 return View("ReadOnlyList");
             }
-            
-
-            int customerId = customerAspNetUser.CustomerId;
 
             var customer = _context.Customers.SingleOrDefault(c => c.Id == customerId);
-           IEnumerable<Movie> movies = _context.Movies.Include(m => m.Genre).ToList();
+            IEnumerable<Movie> movies = _context.Movies.Include(m => m.Genre).ToList();
 
             if (customer == null)
                 return View("ReadOnlyList");

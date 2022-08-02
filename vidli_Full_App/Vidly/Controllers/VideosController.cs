@@ -12,6 +12,7 @@ using Vidly.Models;
 namespace Vidly.Controllers
 {
     [RoutePrefix("/Videos")]
+    [AllowAnonymous]
     public class VideosController : Controller
     {
         private ApplicationDbContext _context;
@@ -28,6 +29,11 @@ namespace Vidly.Controllers
         [Route("/ShowVideo/{id}")]
         public ActionResult ShowVideo(int? id)
         {
+            if ( !(User.IsInRole("canManageMovies") || User.IsInRole("isAcustomer")) )
+            {
+                return HttpNotFound();
+            }
+
             if (id == null || id == 0)
                 return HttpNotFound();
 
