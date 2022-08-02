@@ -1,0 +1,50 @@
+﻿
+
+@{
+    ViewBag.Title = "VideosList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>VideosList</h2>
+
+<hr />
+<h2>Hi &nbsp; @Model.customer.Name</h2>
+<hr />
+<ul>
+    Rentals :
+    <hr />
+    <li>
+        @{
+            var i = 0;
+            foreach (var rental in Model.rentals)
+            {
+                <div>
+                    @*<h5>Date Rented : @rental.DateRented </h5> *@
+
+                    @* Card *@
+                    <div class="col-sm-6">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="@Url.Content(Model.imagesPath[i].ImagePath)" style="width: 400px; height:500px" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title  btn-primary btn-lg"><b> @rental.Movie.Name </b></h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Cras justo odio</li>
+                                <li class="list-group-item">Dapibus ac facilisis in</li>
+                                <li class="list-group-item">Vestibulum at eros</li>
+                            </ul>
+                            <div class="card-body">
+
+                                <!--<h5> <a href="~/Videos/ShowVideo/" +  rental.Movie.Id class="card-link btn-primary btn-lg"><b> Go To Card Link </b></a> </h5> -->
+                                @Html.ActionLink((string)rental.Movie.Name, "ShowVideo", "Videos", new { id = rental.Movie.Id }, null)
+                                <hr />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                { i = i + 1; }
+            }
+        }
+    </li>
+</ul>

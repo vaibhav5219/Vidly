@@ -316,10 +316,19 @@
     <Compile Include="Migrations\202207310326405_AddMoviesIdToVideosPathTable.Designer.cs">
       <DependentUpon>202207310326405_AddMoviesIdToVideosPathTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202208021315023_AddCustomerAspNetUserTable.cs" />
+    <Compile Include="Migrations\202208021315023_AddCustomerAspNetUserTable.Designer.cs">
+      <DependentUpon>202208021315023_AddCustomerAspNetUserTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202208021357553_AddIsUniqueToCustomerAspNetUserColumns.cs" />
+    <Compile Include="Migrations\202208021357553_AddIsUniqueToCustomerAspNetUserColumns.Designer.cs">
+      <DependentUpon>202208021357553_AddIsUniqueToCustomerAspNetUserColumns.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\CustomerAspNetUser.cs" />
     <Compile Include="Models\Genre.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ImagesPath.cs" />
@@ -597,6 +606,7 @@
     <Content Include="Views\Rentals\RentalForm.cshtml" />
     <Content Include="Views\Rentals\ConfirmPage.cshtml" />
     <Content Include="Views\Videos\Index.cshtml" />
+    <Content Include="Views\Movies\VideosList.cshtml" />
     <None Include="Web.Testing.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -691,6 +701,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202207310326405_AddMoviesIdToVideosPathTable.resx">
       <DependentUpon>202207310326405_AddMoviesIdToVideosPathTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202208021315023_AddCustomerAspNetUserTable.resx">
+      <DependentUpon>202208021315023_AddCustomerAspNetUserTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202208021357553_AddIsUniqueToCustomerAspNetUserColumns.resx">
+      <DependentUpon>202208021357553_AddIsUniqueToCustomerAspNetUserColumns.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
