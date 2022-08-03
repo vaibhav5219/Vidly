@@ -21,6 +21,9 @@ namespace Vidly.ViewModels
         }
         public Genres Genre { get; internal set; }
 
-        public HttpPostedFileBase file { get; set; }
+        public HttpPostedFileBase file { get; set; }  // image File
+
+        public HttpPostedFileBase videoFile { get; set; }
+
     }
 }

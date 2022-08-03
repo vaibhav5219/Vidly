@@ -8,7 +8,7 @@ using Vidly.ViewModels;
 
 namespace Vidly.Controllers
 {
-    [AllowAnonymous]
+    [Authorize(Roles = RoleName.CanManageMovies)]
     public class RentalsController : Controller
     {
         private ApplicationDbContext _context;
@@ -53,8 +53,6 @@ namespace Vidly.Controllers
             return View("RentalForm", viewModel);
         }
 
-
-        [Authorize(Roles = RoleName.CanManageMovies)]
         [HttpPost]
         public ViewResult New(RentalFormViewModel newRental)
         {

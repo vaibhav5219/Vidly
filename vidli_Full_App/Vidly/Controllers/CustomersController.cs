@@ -9,7 +9,7 @@ using System.Dynamic;
 
 namespace Vidly.Controllers
 {
-    [AllowAnonymous]
+    [Authorize(Roles = RoleName.CanManageMovies)]
     public class CustomersController : Controller
     {
         private ApplicationDbContext _context;
@@ -38,6 +38,11 @@ namespace Vidly.Controllers
         [HttpPost]
         public ActionResult Save(Customer customer)
         {
+            if (!(User.IsInRole("canManageMovies") || User.IsInRole("isAcustomer")))
+            {
+                return HttpNotFound();
+            }
+
             if (customer.Id == 0)
                 _context.Customers.Add(customer);
             else
@@ -69,9 +74,18 @@ namespace Vidly.Controllers
 
              return View();
         }
+        public ActionResult Details(int? id)
+        {
+            if (!(User.IsInRole("canManageMovies")) )
+            {
+                return HttpNotFound();
+            }
 
-        public ActionResult Details(int id)
-        {// Developement in process
+            if (id == null || id <=0)
+            {
+                return HttpNotFound();
+            }
+
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
             IEnumerable<Rental> rentals = _context.Rentals.Include(m => m.Movie).Include(m => m.Customer).ToList().Where(r => r.Customer.Id == customer.Id);
             //IEnumerable<Movie> movies = _context.Movies.Include(m => m.Genre).Where(m => m.Id == id);
@@ -102,9 +116,12 @@ namespace Vidly.Controllers
 
             return View(model);
         }
-
         public ActionResult Edit(int id)
         {
+            if (!(User.IsInRole("canManageMovies") ))
+            {
+                return HttpNotFound();
+            }
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
 
             if (customer == null)

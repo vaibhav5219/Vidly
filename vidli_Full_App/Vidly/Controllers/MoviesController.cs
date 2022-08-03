@@ -8,9 +8,13 @@ using Vidly.Models;
 using Vidly.ViewModels;
 using System.IO;
 using System.Web;
+using Microsoft.AspNet.Identity;
+using Vidly.Models;
+using System.Dynamic;
 
 namespace Vidly.Controllers
 {
+    [AllowAnonymous]
     public class MoviesController : Controller
     {
         private ApplicationDbContext _context;
@@ -26,19 +30,24 @@ namespace Vidly.Controllers
         }
 
         public ViewResult Index()
-      {
+        {
             //  var movies = _context.Movies.Include(m => m.Genre).ToList();
             //  return View(movies);
 
-            if (User.IsInRole("canManageMovies" ))
+            if (User.IsInRole("canManageMovies"))
+            {
                 return View("List");
-
+            }
             return View("ReadOnlyList");
         }
 
         [Authorize(Roles = RoleName.CanManageMovies)]
         public ViewResult New()
         {
+            if (!(User.IsInRole("canManageMovies")))
+            {
+                return View("ReadOnlyList");
+            }
             var genres = _context.Genres.ToList();
 
             var viewModel = new MovieFormViewModel
@@ -52,8 +61,13 @@ namespace Vidly.Controllers
             return View("MovieForm", viewModel);
         }
 
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult Edit(int id)
         {
+            if (!(User.IsInRole("canManageMovies")))
+            {
+                return HttpNotFound();
+            }
             var movie = _context.Movies.SingleOrDefault(c => c.Id == id);
 
             if (movie == null)
@@ -104,6 +118,10 @@ namespace Vidly.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Save(MovieFormViewModel movieFormViewModel)
         {
+            if (!(User.IsInRole("canManageMovies") ))
+            {
+                return HttpNotFound();
+            }
             if (!ModelState.IsValid) 
             {
                 var viewmodel = new MovieFormViewModel
@@ -113,11 +131,16 @@ namespace Vidly.Controllers
                 };
                 return View ("MovieForm",viewmodel);
             }
+
             // file name add in db and pic store in folder
             string path = Server.MapPath("~/Images");
             string fileName = Path.GetFileName(movieFormViewModel.file.FileName);
             string fullPath = Path.Combine(path, fileName);
 
+            // Getting the video path
+            string videoFileName = Path.GetFileName(movieFormViewModel.videoFile.FileName);
+            
+            // for saving new movie
             if (movieFormViewModel.Movie.Id == 0 && movieFormViewModel.file != null)
             {
                 movieFormViewModel.Movie.DateAdded = DateTime.Now;
@@ -128,12 +151,17 @@ namespace Vidly.Controllers
                 int Movieid = movieFormViewModel.Movie.Id;
 
                 //Image Saver
-                string relativePath = "/Images";
-                ImageController.SaveImage(relativePath+"/"+fileName, Movieid);
+                string relativePath = "/Images/";
+                ImageController.SaveImage(relativePath+fileName, Movieid);
                 movieFormViewModel.file.SaveAs(fullPath);  // save image in full path
+
+                //saving video path in db
+                VideosController.Create(movieFormViewModel.videoFile,Movieid);
+                // Saving video in video folder
+                movieFormViewModel.videoFile.SaveAs(Server.MapPath("/Videos/" + videoFileName));
             }
             else
-            {
+            {   // For edit movie
                 var movieInDb = _context.Movies.Single(m => m.Id == movieFormViewModel.Movie.Id);
                 movieInDb.Name = movieFormViewModel.Movie.Name;
                 movieInDb.GenreId = movieFormViewModel.Movie.GenreId;
@@ -141,14 +169,83 @@ namespace Vidly.Controllers
                 movieInDb.ReleaseDate = movieFormViewModel.Movie.ReleaseDate;
 
                 //Image Saver
-                string relativePath = "/Images";  // relative path
-                ImageController.SaveImage(relativePath+"/"+fileName, movieFormViewModel.Movie.Id);
+                string relativePath = "/Images/";  // relative path
+                ImageController.SaveImage(relativePath+fileName, movieFormViewModel.Movie.Id);
                 movieFormViewModel.file.SaveAs(fullPath);  // save image in full path
+
+                //saving video path in db
+                VideosController.Create(movieFormViewModel.videoFile, movieFormViewModel.Movie.Id);
+                // Saving video in video folder
+                movieFormViewModel.videoFile.SaveAs(Server.MapPath("/Videos/" + videoFileName));
 
                 _context.SaveChanges();
             }
 
             return RedirectToAction("Index", "Movies");
+        }
+
+        public ActionResult VideosList()
+        {
+            if (User.IsInRole("canManageMovies"))
+            {
+                return View("List");    // =>  For Admin
+            }
+
+            // customerName
+            // Videos List with videos Address
+            // Rent option
+            // play option
+            CustomerAspNetUser customerAspNetUser = new CustomerAspNetUser();
+            int customerId;
+
+            string userId = User.Identity.GetUserId();
+            try
+            {
+                customerAspNetUser = _context.customerAspNetUsers.FirstOrDefault(c => c.AspNetUserId == userId);
+                customerId = customerAspNetUser.CustomerId;
+            }
+            catch
+            {
+                return View("ReadOnlyList");
+            }
+
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == customerId);
+            IEnumerable<Rental> rentals = _context.Rentals.Include(m => m.Movie).Include(m => m.Customer).ToList().Where(r => r.Customer.Id == customer.Id);
+
+            List<Movie> movies = new List<Movie>();
+
+            foreach(var rental in rentals)
+            {
+                Movie movie1 = _context.Movies.SingleOrDefault(m => m.Id == rental.Movie.Id);
+                movies.Add(movie1);
+            }
+
+            if (customer == null)
+                return View("ReadOnlyList");
+
+            List<ImagesPath> image_path = new List<ImagesPath>();
+            foreach (var movie in movies)
+            {
+                try
+                {
+                    ImagesPath imagesPaths = _context.ImagesPaths.Where(m => m.MovieId == movie.Id).ToList()[0];
+                    image_path.Add(imagesPaths);
+                }
+                catch
+                {
+                    ImagesPath imageP = new ImagesPath();
+                    imageP.MovieId = movie.Id;
+                    imageP.ImagePath = @"\Images\Vidly.png";
+                    image_path.Add(imageP);
+                }
+            }
+
+            dynamic model = new ExpandoObject();
+            model.customer = customer;
+            model.movies = movies;
+            model.imagesPath = image_path;
+
+            return View("VideosList", model);
         }
     }
 }

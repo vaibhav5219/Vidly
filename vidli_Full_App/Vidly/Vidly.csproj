@@ -198,6 +198,7 @@
     <Compile Include="Controllers\Api\NewRentalsController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\RentalsController.cs" />
+    <Compile Include="Controllers\VideosController.cs" />
     <Compile Include="Dtos\CostomersDto.cs" />
     <Compile Include="Dtos\CustomerDetailsDto.cs" />
     <Compile Include="Dtos\GenreDto.cs" />
@@ -307,10 +308,27 @@
     <Compile Include="Migrations\202207281455539_AddMovieIdToImagesPathTable.Designer.cs">
       <DependentUpon>202207281455539_AddMovieIdToImagesPathTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202207310313055_AddVideosPathTable.cs" />
+    <Compile Include="Migrations\202207310313055_AddVideosPathTable.Designer.cs">
+      <DependentUpon>202207310313055_AddVideosPathTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202207310326405_AddMoviesIdToVideosPathTable.cs" />
+    <Compile Include="Migrations\202207310326405_AddMoviesIdToVideosPathTable.Designer.cs">
+      <DependentUpon>202207310326405_AddMoviesIdToVideosPathTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202208021315023_AddCustomerAspNetUserTable.cs" />
+    <Compile Include="Migrations\202208021315023_AddCustomerAspNetUserTable.Designer.cs">
+      <DependentUpon>202208021315023_AddCustomerAspNetUserTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202208021357553_AddIsUniqueToCustomerAspNetUserColumns.cs" />
+    <Compile Include="Migrations\202208021357553_AddIsUniqueToCustomerAspNetUserColumns.Designer.cs">
+      <DependentUpon>202208021357553_AddIsUniqueToCustomerAspNetUserColumns.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\CustomerAspNetUser.cs" />
     <Compile Include="Models\Genre.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ImagesPath.cs" />
@@ -319,6 +337,7 @@
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Models\Rental.cs" />
     <Compile Include="Models\RoleName.cs" />
+    <Compile Include="Models\VideosPath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CustomerDetailFormViewModel.cs" />
@@ -550,7 +569,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Index1.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -580,12 +599,14 @@
     <Content Include="Views\Customers\CustomerForm.cshtml" />
     <Content Include="Views\Movies\CustomerForm.cshtml" />
     <Content Include="Views\Movies\ReadOnlyList.cshtml" />
-    <Content Include="Views\Home\NewHome.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <None Include="Views\Movies\List.cshtml" />
     <Content Include="Views\Movies\MovieForm.cshtml" />
     <Content Include="Views\Rentals\New.cshtml" />
     <Content Include="Views\Rentals\RentalForm.cshtml" />
     <Content Include="Views\Rentals\ConfirmPage.cshtml" />
+    <Content Include="Views\Videos\Index.cshtml" />
+    <Content Include="Views\Movies\VideosList.cshtml" />
     <None Include="Web.Testing.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -593,6 +614,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Images\" />
+    <Folder Include="Videos\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -673,6 +695,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202207281455539_AddMovieIdToImagesPathTable.resx">
       <DependentUpon>202207281455539_AddMovieIdToImagesPathTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202207310313055_AddVideosPathTable.resx">
+      <DependentUpon>202207310313055_AddVideosPathTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202207310326405_AddMoviesIdToVideosPathTable.resx">
+      <DependentUpon>202207310326405_AddMoviesIdToVideosPathTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202208021315023_AddCustomerAspNetUserTable.resx">
+      <DependentUpon>202208021315023_AddCustomerAspNetUserTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202208021357553_AddIsUniqueToCustomerAspNetUserColumns.resx">
+      <DependentUpon>202208021357553_AddIsUniqueToCustomerAspNetUserColumns.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
