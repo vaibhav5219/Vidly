@@ -38,6 +38,11 @@ namespace Vidly.Controllers
         [HttpPost]
         public ActionResult Save(Customer customer)
         {
+            if (!(User.IsInRole("canManageMovies") || User.IsInRole("isAcustomer")))
+            {
+                return HttpNotFound();
+            }
+
             if (customer.Id == 0)
                 _context.Customers.Add(customer);
             else
@@ -71,7 +76,12 @@ namespace Vidly.Controllers
         }
         public ActionResult Details(int? id)
         {
-            if(id == null || id <=0)
+            if (!(User.IsInRole("canManageMovies")) )
+            {
+                return HttpNotFound();
+            }
+
+            if (id == null || id <=0)
             {
                 return HttpNotFound();
             }
@@ -108,6 +118,10 @@ namespace Vidly.Controllers
         }
         public ActionResult Edit(int id)
         {
+            if (!(User.IsInRole("canManageMovies") ))
+            {
+                return HttpNotFound();
+            }
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
 
             if (customer == null)

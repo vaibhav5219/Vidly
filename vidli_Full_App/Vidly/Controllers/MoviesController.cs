@@ -44,6 +44,10 @@ namespace Vidly.Controllers
         [Authorize(Roles = RoleName.CanManageMovies)]
         public ViewResult New()
         {
+            if (!(User.IsInRole("canManageMovies")))
+            {
+                return View("ReadOnlyList");
+            }
             var genres = _context.Genres.ToList();
 
             var viewModel = new MovieFormViewModel
@@ -60,6 +64,10 @@ namespace Vidly.Controllers
         [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult Edit(int id)
         {
+            if (!(User.IsInRole("canManageMovies")))
+            {
+                return HttpNotFound();
+            }
             var movie = _context.Movies.SingleOrDefault(c => c.Id == id);
 
             if (movie == null)
@@ -110,6 +118,10 @@ namespace Vidly.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Save(MovieFormViewModel movieFormViewModel)
         {
+            if (!(User.IsInRole("canManageMovies") ))
+            {
+                return HttpNotFound();
+            }
             if (!ModelState.IsValid) 
             {
                 var viewmodel = new MovieFormViewModel
@@ -198,7 +210,15 @@ namespace Vidly.Controllers
             }
 
             var customer = _context.Customers.SingleOrDefault(c => c.Id == customerId);
-            IEnumerable<Movie> movies = _context.Movies.Include(m => m.Genre).ToList();
+            IEnumerable<Rental> rentals = _context.Rentals.Include(m => m.Movie).Include(m => m.Customer).ToList().Where(r => r.Customer.Id == customer.Id);
+
+            List<Movie> movies = new List<Movie>();
+
+            foreach(var rental in rentals)
+            {
+                Movie movie1 = _context.Movies.SingleOrDefault(m => m.Id == rental.Movie.Id);
+                movies.Add(movie1);
+            }
 
             if (customer == null)
                 return View("ReadOnlyList");

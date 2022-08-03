@@ -8,6 +8,8 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using Vidly.Models;
+using System.Dynamic;
+using Microsoft.AspNet.Identity;
 
 namespace Vidly.Controllers
 {
@@ -36,6 +38,54 @@ namespace Vidly.Controllers
 
             if (id == null || id == 0)
                 return HttpNotFound();
+
+            if (User.IsInRole("isAcustomer"))
+            {
+                // ydi ye video id customer ne book kiya hai to ye video dekh skta hai else not
+                CustomerAspNetUser customerAspNetUser = new CustomerAspNetUser();
+                int customerId;
+                var customer = new Customer();
+                Rental rental1 = new Rental();
+
+                string userId = User.Identity.GetUserId();
+                try
+                {
+                    customerAspNetUser = _context.customerAspNetUsers.FirstOrDefault(c => c.AspNetUserId == userId);
+                    customerId = customerAspNetUser.CustomerId;
+
+                    customer = _context.Customers.SingleOrDefault(c => c.Id == customerId);
+                    rental1 = _context.Rentals.SingleOrDefault(c => c.Movie.Id == id);
+                }
+                catch
+                {
+                    return View("ReadOnlyList");
+                }
+
+                //IEnumerable<Rental> rentals = _context.Rentals.Include(m => m.Movie).Include(m => m.Customer).ToList().Where(r => r.Customer.Id == customer.Id && r.Movie.Id==id);
+                //IEnumerable<Movie> movies = _context.Movies.Include(m => m.Genre).Where(m => m.Id == id);
+
+                List<VideosPath> videosPaths1 = new List<VideosPath>();
+                    try
+                    {
+                        VideosPath videosPath = _context.videosPaths.Where(m => m.MovieId == id).ToList()[0];
+                        videosPaths1.Add(videosPath);
+                    }
+                    catch
+                    {
+                        VideosPath videoP = new VideosPath();
+                        videoP.MovieId = (int)id;
+                        videoP.VideoPath = @"\Videos\Sample_surfing_with_audio.mp4";
+                        videosPaths1.Add(videoP);
+                    }
+                if (customer == null)
+                    return HttpNotFound();
+
+                dynamic model = new ExpandoObject();
+                model.customer = customer;
+                ViewBag.VideosPaths = videosPaths1[0];
+
+                return View("Index");
+            }
 
             List<VideosPath> videosPaths = new List<VideosPath>();
 

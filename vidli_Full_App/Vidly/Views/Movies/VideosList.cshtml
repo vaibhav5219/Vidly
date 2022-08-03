@@ -5,12 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>VideosList</h2>
+<h2 class="card-title  btn-primary btn-lg" style="width: 18rem;">VideosList</h2>
 
 <hr />
 <h2>Hi &nbsp; @Model.customer.Name &nbsp; @Model.customer.Id</h2>
 <hr />
-<a href="#"><h4>Your Videos </h4></a>
+<a href="#"><h4 class="card-title  btn-primary btn-lg" style="width: 18rem;">Your Videos </h4></a>
 <ul>
     <hr />
     <li>
@@ -37,7 +37,7 @@
                             <div class="card-body">
 
                                 <!--<h5> <a href="~/Videos/ShowVideo/" +  rental.Movie.Id class="card-link btn-primary btn-lg"><b> Go To Card Link </b></a> </h5> -->
-                                @Html.ActionLink((string)movie.Name, "RentVideo", "Videos", new { id = movie.Id }, null)
+                                @Html.ActionLink((string)movie.Name, "ShowVideo", "Videos", new { id = movie.Id }, null)
                                 <hr />
                             </div>
                         </div>
