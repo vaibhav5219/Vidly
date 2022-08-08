@@ -17,7 +17,7 @@ namespace Vidly.Migrations
                     })
                 .PrimaryKey(t => t.Id);
             
-            DropColumn("dbo.Customers", "AspNetUsersLoginId");
+            //DropColumn("dbo.Customers", "AspNetUsersLoginId");
         }
         
         public override void Down()
