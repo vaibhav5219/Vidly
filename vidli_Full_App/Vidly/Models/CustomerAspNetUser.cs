@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -11,12 +12,19 @@ namespace Vidly.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(450)]
         [System.ComponentModel.DataAnnotations.Schema.Index(IsUnique = true)]
-        public string AspNetUserId { get; set; }
+        [Display(Name ="AspNetUser")]
+        public virtual string ApplicationUserId { get; set; }
 
         [Required]
         [System.ComponentModel.DataAnnotations.Schema.Index(IsUnique = true)]
-        public int CustomerId { get; set; }
+        [Display(Name ="Customer")]
+        public virtual int CustomerId { get; set; }
+
+        [ForeignKey("CustomerId")]
+        public virtual Customer Customer { get; set; } 
+
+        [ForeignKey("ApplicationUserId")]
+        public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }

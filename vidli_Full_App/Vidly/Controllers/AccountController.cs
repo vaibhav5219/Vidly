@@ -10,17 +10,20 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Vidly.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Vidly.ViewModels;
 
 namespace Vidly.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        private ApplicationDbContext _context;
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
         public AccountController()
         {
+            _context = new ApplicationDbContext();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -140,7 +143,15 @@ namespace Vidly.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            CustomerRegisterViewModel model = new CustomerRegisterViewModel();
+            var membershipTypes = _context.MembershipTypes.ToList();
+            var viewModel = new CustomerFormViewModel
+            {
+                MembershipTypes = membershipTypes
+            };
+            model.customerFormViewModel = viewModel;
+            model.customerFormViewModel.Customer = new Customer();
+            return View(model);
         }
 
         //
@@ -148,39 +159,65 @@ namespace Vidly.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(CustomerRegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser 
                 { 
-                    UserName = model.Email, 
-                    Email = model.Email,
-                    DrivingLicence = model.DrivringLicence,
-                    Mobile = model.Mobile
+                    UserName = model.registerViewModel.Email, 
+                    Email = model.registerViewModel.Email,
+                    DrivingLicence = model.registerViewModel.DrivringLicence,
+                    Mobile = model.registerViewModel.Mobile
                 };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                var result = await UserManager.CreateAsync(user, model.registerViewModel.Password);
                 if (result.Succeeded)
                 {
-                    // Temp code => For Admin(Manager movies)
-                 //   var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
-                 //   var roleManager = new RoleManager<IdentityRole>(roleStore);
-                 //   await roleManager.CreateAsync(new IdentityRole("canManageMovies"));
-                 //   await UserManager.AddToRoleAsync(user.Id, "CanManageMovies");
+                    // Temp code => For Admin(Manager movies)  // for assiging role  **Important**
+                    //var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+                    //var roleManager = new RoleManager<IdentityRole>(roleStore);
+                    //await roleManager.CreateAsync(new IdentityRole("isAcustomer"));
+                    //await UserManager.AddToRoleAsync(user.Id, "CanManageMovies");
 
+                    /* Save New Customer */
+                    if (model.customerFormViewModel.Customer.Id == 0)
+                    {
+                        // Assign UserRole to a customer
+                        await UserManager.AddToRoleAsync(user.Id, "isAcustomer");
 
+                        // Saving into customer table
+                        _context.Customers.Add(model.customerFormViewModel.Customer);
+                        CustomerAspNetUser customerAspNetUser = new CustomerAspNetUser()
+                        {
+                            ApplicationUserId = user.Id,
+                            CustomerId = model.customerFormViewModel.Customer.Id
+                        };
+                        // Saving into customerAspNetUsers table
+                        _context.customerAspNetUsers.Add(customerAspNetUser);
+
+                        _context.SaveChanges();
+                    }
+
+                    // For signin this new user
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
                 }
+                return RedirectToAction("Index", "Home");
+
                 AddErrors(result);
             }
+            var membershipTypes = _context.MembershipTypes.ToList();
+            var viewModel = new CustomerFormViewModel
+            {
+                MembershipTypes = membershipTypes
+            };
+            model.customerFormViewModel = viewModel;
 
             // If we got this far, something failed, redisplay form
             return View(model);

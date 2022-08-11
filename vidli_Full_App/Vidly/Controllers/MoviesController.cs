@@ -9,7 +9,6 @@ using Vidly.ViewModels;
 using System.IO;
 using System.Web;
 using Microsoft.AspNet.Identity;
-using Vidly.Models;
 using System.Dynamic;
 
 namespace Vidly.Controllers
@@ -201,7 +200,7 @@ namespace Vidly.Controllers
             string userId = User.Identity.GetUserId();
             try
             {
-                customerAspNetUser = _context.customerAspNetUsers.FirstOrDefault(c => c.AspNetUserId == userId);
+                customerAspNetUser = _context.customerAspNetUsers.FirstOrDefault(c => c.ApplicationUserId == userId);
                 customerId = customerAspNetUser.CustomerId;
             }
             catch

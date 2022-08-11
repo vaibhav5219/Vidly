@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Vidly.Models
 {
@@ -20,5 +21,6 @@ namespace Vidly.Models
 
         [Display(Name = "Date of Birth")]
         public DateTime? Birthdate { get; set; }
+
     }
 }

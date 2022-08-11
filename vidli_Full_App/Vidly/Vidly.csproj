@@ -324,6 +324,14 @@
     <Compile Include="Migrations\202208021357553_AddIsUniqueToCustomerAspNetUserColumns.Designer.cs">
       <DependentUpon>202208021357553_AddIsUniqueToCustomerAspNetUserColumns.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202208101840269_UpdateCustomerAspNetUsersColumnAspNetUserIdToInt.cs" />
+    <Compile Include="Migrations\202208101840269_UpdateCustomerAspNetUsersColumnAspNetUserIdToInt.Designer.cs">
+      <DependentUpon>202208101840269_UpdateCustomerAspNetUsersColumnAspNetUserIdToInt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202208110934141_OneToOneRelationIntoCustomerAspNetUserTable.cs" />
+    <Compile Include="Migrations\202208110934141_OneToOneRelationIntoCustomerAspNetUserTable.Designer.cs">
+      <DependentUpon>202208110934141_OneToOneRelationIntoCustomerAspNetUserTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -344,6 +352,7 @@
     <Compile Include="ViewModels\CustomerFormViewModel.cs" />
     <Compile Include="ViewModels\MovieFormViewModel.cs" />
     <Compile Include="ViewModels\RandomMovieViewModel.cs" />
+    <Compile Include="ViewModels\CustomerRegisterViewModel.cs" />
     <Compile Include="ViewModels\RentalFormViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -710,6 +719,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202208021357553_AddIsUniqueToCustomerAspNetUserColumns.resx">
       <DependentUpon>202208021357553_AddIsUniqueToCustomerAspNetUserColumns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202208101840269_UpdateCustomerAspNetUsersColumnAspNetUserIdToInt.resx">
+      <DependentUpon>202208101840269_UpdateCustomerAspNetUsersColumnAspNetUserIdToInt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202208110934141_OneToOneRelationIntoCustomerAspNetUserTable.resx">
+      <DependentUpon>202208110934141_OneToOneRelationIntoCustomerAspNetUserTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Vidly.Models
 {
@@ -25,7 +26,6 @@ namespace Vidly.Models
             // Add custom user claims here
             return userIdentity;
         }
+
     }
-
-
 }

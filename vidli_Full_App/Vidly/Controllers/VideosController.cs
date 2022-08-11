@@ -50,7 +50,7 @@ namespace Vidly.Controllers
                 string userId = User.Identity.GetUserId();
                 try
                 {
-                    customerAspNetUser = _context.customerAspNetUsers.FirstOrDefault(c => c.AspNetUserId == userId);
+                    customerAspNetUser = _context.customerAspNetUsers.FirstOrDefault(c => c.ApplicationUserId == userId);
                     customerId = customerAspNetUser.CustomerId;
 
                     customer = _context.Customers.SingleOrDefault(c => c.Id == customerId);

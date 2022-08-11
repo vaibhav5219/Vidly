@@ -43,8 +43,10 @@ namespace Vidly.Controllers
                 return HttpNotFound();
             }
 
-            if (customer.Id == 0)
-                _context.Customers.Add(customer);
+            if (customer.Id == 0) 
+            {
+                // _context.Customers.Add(customer);   // Now none create only customer
+            }
             else
             {
                 var customerInDb = _context.Customers.Single(c => c.Id == customer.Id);
