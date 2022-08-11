@@ -33,7 +33,7 @@ namespace Vidly.Controllers
         {
             if ( !(User.IsInRole("canManageMovies") || User.IsInRole("isAcustomer")) )
             {
-                return HttpNotFound();
+                return RedirectToAction("Login","Account", new { area = "" });
             }
 
             if (id == null || id == 0)

@@ -29,7 +29,7 @@
                             <div class="card-body">
 
                                 <!--<h5> <a href="~/Videos/ShowVideo/" +  rental.Movie.Id class="card-link btn-primary btn-lg"><b> Go To Card Link </b></a> </h5> -->
-                                @Html.ActionLink((string)movie.Name, "ShowVideo", "Videos", new { id = movie.Id }, null)
+                                @Html.ActionLink("Watch  "+(string)movie.Name, "ShowVideo", "Videos", new { id = movie.Id }, null)
                                 <hr />
                             </div>
                         </div>
