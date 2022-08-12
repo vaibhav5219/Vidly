@@ -66,10 +66,10 @@ namespace Vidly.Controllers
                 //IEnumerable<Rental> rentals = _context.Rentals.Include(m => m.Movie).Include(m => m.Customer).ToList().Where(r => r.Customer.Id == customer.Id && r.Movie.Id==id);
                 //IEnumerable<Movie> movies = _context.Movies.Include(m => m.Genre).Where(m => m.Id == id);
                 if (customer == null)
-                    return HttpNotFound();
+                    return RedirectToAction("NotRented", "Videos");
 
-                if(rental == null) 
-                    videosPath.VideoPath = @"\Videos\1.mp4";
+                if (rental == null)
+                    return RedirectToAction("NotRented", "Videos");
 
                 dynamic model = new ExpandoObject();
                 model.customer = customer;
@@ -129,6 +129,11 @@ namespace Vidly.Controllers
                     sqlConnection.Close();
                 }
             }
+        }
+        
+        public ActionResult NotRented()
+        {
+            return View("NotRented");
         }
     }
 }
