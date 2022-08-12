@@ -16,20 +16,20 @@
                     @* Card *@
                     <div class="col-sm-6">
                         <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="@Url.Content(Model.imagesPath[i].ImagePath)" style="width: 400px; height:500px" alt="Card image cap">
+                            <img class="card-img-top" src="@Url.Content(Model.imagesPath[i].ImagePath)" style="width: 250px; height:300px" alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title  btn-primary btn-lg"><b> @movie.Name </b></h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <p class="card-text"></p>
                             </div>
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Cras justo odio</li>
-                                <li class="list-group-item">Dapibus ac facilisis in</li>
-                                <li class="list-group-item">Vestibulum at eros</li>
+                                <li class="list-group-item"></li>
+                                <li class="list-group-item"> @Html.ActionLink("Watch  " + (string)movie.Name, "ShowVideo", "Videos", new { id = movie.Id }, null)</li>
+                                <li class="list-group-item"></li>
                             </ul>
                             <div class="card-body">
 
                                 <!--<h5> <a href="~/Videos/ShowVideo/" +  rental.Movie.Id class="card-link btn-primary btn-lg"><b> Go To Card Link </b></a> </h5> -->
-                                @Html.ActionLink("Watch  "+(string)movie.Name, "ShowVideo", "Videos", new { id = movie.Id }, null)
+                       
                                 <hr />
                             </div>
                         </div>

@@ -3,9 +3,11 @@
 @{ ViewBag.Title = "Movies";
                 Layout = "~/Views/Shared/_Layout.cshtml"; }
 
-<h2>Videos Lists</h2>
+<br />
+<div class = "btn btn-primary">Videos Lists</div>
+<br />
 <p>
-    @Html.ActionLink("Add New Video", "New", "Movies", null, new { @class = "btn btn-primary" })
+    @* Html.ActionLink("Add New Video", "New", "Movies", null, new { @class = "btn btn-primary" }) *@
 </p>
 <table id="movies" class="table table-bordered table-hover">
     <thead>

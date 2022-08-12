@@ -26,20 +26,19 @@
                     @* Card *@
                     <div class="col-sm-6">
                         <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="@Url.Content(Model.imagesPath[i].ImagePath)" style="width: 400px; height:500px" alt="Card image cap">
+                            <img class="card-img-top" src="@Url.Content(Model.imagesPath[i].ImagePath)" style="width: 200px; height:200px" alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title  btn-primary btn-lg"><b> @rental.Movie.Name </b></h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <p class="card-text"></p>
                             </div>
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Cras justo odio</li>
-                                <li class="list-group-item">Dapibus ac facilisis in</li>
-                                <li class="list-group-item">Vestibulum at eros</li>
+                                <li class="list-group-item"></li>
+                                <li class="list-group-item">@Html.ActionLink("Delete "+(string)rental.Movie.Name + " From Rent" , "ShowVideo", "Videos", new { id = rental.Movie.Id }, null)</li>
+                                <li class="list-group-item"></li>
                             </ul>
                             <div class="card-body">
 
                                 <!--<h5> <a href="~/Videos/ShowVideo/" +  rental.Movie.Id class="card-link btn-primary btn-lg"><b> Go To Card Link </b></a> </h5> -->
-                                @Html.ActionLink((string)rental.Movie.Name, "ShowVideo", "Videos",new { id = rental.Movie.Id }, null)
                                 <hr />
                             </div>
                         </div>

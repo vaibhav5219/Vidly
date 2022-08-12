@@ -6,9 +6,9 @@
 }
 
 <hr />
-<h2>Hi &nbsp; @Model.customer.Name &nbsp; @* Model.customer.Id *@</h2>
+<h2>Hi, &nbsp; @Model.customer.Name &nbsp; @* Model.customer.Id *@</h2>
 <hr />
-<a href="#"><h4 class="card-title  btn-primary btn-lg" style="width: 18rem;">Watch Your Videos</h4></a>
+@* <a href="#"><h4 class="card-title  btn-primary btn-lg" style="width: 18rem;">Watch Your Videos</h4></a>  *@
 <ul>
     <li>
         @{
@@ -21,7 +21,7 @@
                     @* Card *@
                     <div class="col-sm-6">
                         <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="@Url.Content(Model.imagesPath[i].ImagePath)" style="width: 300px; height:400px" alt="Card image cap">
+                            <img class="card-img-top" src="@Url.Content(Model.imagesPath[i].ImagePath)" style="width: 250px; height:200px" alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title  btn-primary btn-lg"><b> @movie.Name </b></h5>
                                 <p class="card-text"></p>
