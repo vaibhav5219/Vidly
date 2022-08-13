@@ -9,13 +9,28 @@
 <h2>Hi, &nbsp; @Model.customer.Name &nbsp; @* Model.customer.Id *@</h2>
 <hr />
 @* <a href="#"><h4 class="card-title  btn-primary btn-lg" style="width: 18rem;">Watch Your Videos</h4></a>  *@
-<ul>
-    <li>
+
         @{
             var i = 0;
             foreach (var movie in Model.movies)
             {
-                <div>
+                <div class="row">
+                    @*<h5>Date Rented : @rental.DateRented </h5> *@
+
+                    @* Card *@
+                    <div class="col-sm-6">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="@Url.Content(Model.imagesPath[i].ImagePath)" style="width: 250px; height:200px" alt="Card image cap">
+                            <div class="card-body" >
+                                <button class="" ><b > @Html.ActionLink("Watch  " + (string)movie.Name, "ShowVideo", "Videos", new { id = movie.Id, @class="btn btn-primary btn-lg" }, null)</b></button>
+                                <p class="card-text"></p>
+                            </div>
+                            
+                            <div class="card-body">
+                                <!--<h5> <a href="~/Videos/ShowVideo/" +  rental.Movie.Id class="card-link btn-primary btn-lg"><b> Go To Card Link </b></a> </h5> -->
+                            </div>
+                        </div>
+                    </div>
                     @*<h5>Date Rented : @rental.DateRented </h5> *@
 
                     @* Card *@
@@ -23,25 +38,26 @@
                         <div class="card" style="width: 18rem;">
                             <img class="card-img-top" src="@Url.Content(Model.imagesPath[i].ImagePath)" style="width: 250px; height:200px" alt="Card image cap">
                             <div class="card-body">
-                                <h5 class="card-title  btn-primary btn-lg"><b> @movie.Name </b></h5>
+                                <button class=""><b> @Html.ActionLink("Watch  " + (string)movie.Name, "ShowVideo", "Videos", new { id = movie.Id, @class = "btn btn-primary btn-lg" }, null)</b></button>
                                 <p class="card-text"></p>
                             </div>
-                            <ul class="list-group list-group-flush">
+                          <!--  <ul class="list-group list-group-flush">
                                 <li class="list-group-item"></li>
                                 <li class="list-group-item">@Html.ActionLink("Watch  " + (string)movie.Name, "ShowVideo", "Videos", new { id = movie.Id }, null)</li>
                                 <li class="list-group-item"></li>
-                            </ul>
+                            </ul> -->
                             <div class="card-body">
-
                                 <!--<h5> <a href="~/Videos/ShowVideo/" +  rental.Movie.Id class="card-link btn-primary btn-lg"><b> Go To Card Link </b></a> </h5> -->
-                                
-                                <hr />
                             </div>
+
                         </div>
                     </div>
                 </div>
                 { i = i + 1; }
             }
         }
-    </li>
-</ul>
+@section scripts
+    {
+    @Scripts.Render("~/ bundles / jqueryval")
+    @Scripts.Render("~/Scripts/jquery-1.10.2.min.js")
+}

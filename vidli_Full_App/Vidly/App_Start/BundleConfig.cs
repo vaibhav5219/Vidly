@@ -9,12 +9,15 @@ namespace Vidly
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/lib").Include(
-                        "~/Scripts/jquery-{version}.js",
-                        "~/Scripts/bootstrap.js",
-                        "~/scripts/bootbox.js",
+                        "~/Theme/vendor/datatables/datatables.bootstrap.js",
+                        "~/Theme/vendor/jquery/jquery.min.js",
+                        "~/Theme/vendor/bootstrap/js/bootstrap.bundle.min.js",
+                        "~/Theme/vendor/bootstrap/js/bootstrap.js",
+                        "~/Theme/vendor/datatables/jquery.dataTables.js",
+                        "~/Theme/vendor/datatables/dataTables.bootstrap.js",
+                        "~/Theme/vendor/datatables/dataTables.bootstrap4.min.css",
+                        "~/Theme/vendor/jquery-easing/jquery.easing.min.js",
                         "~/Scripts/respond.js",
-                        "~/scripts/datatables/jquery.datatables.js",
-                        "~/scripts/datatables/datatables.bootstrap.js",
                         "~/scripts/typeahead.bundle.js",
                         "~/scripts/toastr.js"
                       ));

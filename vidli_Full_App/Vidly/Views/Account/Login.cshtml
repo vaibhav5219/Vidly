@@ -17,14 +17,14 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @id="email" })
                         @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @id="pass" })
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Log in" class="btn btn-default" />
+                        <input type="submit" value="Log in" class="btn btn-primary btn-lg btn-block" />
                     </div>
                 </div>
                 <p>
@@ -59,8 +59,8 @@
 </div>
 @section Scripts{
 <script type="text/javascript">
-    document.getElementsByClassName("form-control")[0].value = "Nitish123@gmail.com";
-    document.getElementsByClassName("form-control")[1].value = "Nitish123@gmail.com";
+    document.getElementById("email").value = "Nitish123@gmail.com";
+    document.getElementById("pass").value = "Nitish123@gmail.com";
 </script>
 }
 

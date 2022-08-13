@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Vidly.Models.Movie>
 
 @{ ViewBag.Title = "Movies";
-   Layout = "~/Views/Shared/_Layout.cshtml";
-    
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
 <h2>Videos Lists</h2>
 <p>
-    @* @Html.ActionLink("Add New Video", "New", "Movies", null, new { @class = "btn btn-primary" }) *@
+    @Html.ActionLink("Add New Video", "New", "Movies", null, new { @class = "btn btn-primary" }) 
 </p>
 <table id="movies" class="table table-bordered table-hover">
     <thead>
@@ -34,6 +34,7 @@
 </table>
 @section scripts
 {
+
     <script>
         $(document).ready(function () {
             var table = $("#movies").DataTable({

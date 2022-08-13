@@ -3,40 +3,41 @@
     ViewBag.Title = "NewHome";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{
+    var i = 0;
+    foreach (var movie in Model.movies)
+    {
 
-<ul>
-    <hr />
-    <li>
-        @{
-            var i = 0;
-            foreach (var movie in Model.movies)
-            {
-                <div>
+        @* Card *@
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="card" style="width: 16rem;">
+                    <img class="card-img-top" src="@Url.Content(Model.imagesPath[i].ImagePath)" style="width: 250px; height:300px" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title  btn btn-outline-primary"><b> @Html.ActionLink("Play " + (string)movie.Name, "ShowVideo", "Videos", new { id = movie.Id }, null) </b></h5>
+                        <p class="card-text"></p>
+                    </div>
+                    <div class="card-body">
 
-                    @* Card *@
-                    <div class="col-sm-6">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="@Url.Content(Model.imagesPath[i].ImagePath)" style="width: 250px; height:300px" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title  btn-primary btn-lg"><b> @movie.Name </b></h5>
-                                <p class="card-text"></p>
-                            </div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item"></li>
-                                <li class="list-group-item"> @Html.ActionLink("Watch  " + (string)movie.Name, "ShowVideo", "Videos", new { id = movie.Id }, null)</li>
-                                <li class="list-group-item"></li>
-                            </ul>
-                            <div class="card-body">
-
-                                <!--<h5> <a href="~/Videos/ShowVideo/" +  rental.Movie.Id class="card-link btn-primary btn-lg"><b> Go To Card Link </b></a> </h5> -->
-                       
-                                <hr />
-                            </div>
-                        </div>
+                        <!--<h5> <a href="~/Videos/ShowVideo/" +  rental.Movie.Id class="card-link btn-primary btn-lg"><b> Go To Card Link </b></a> </h5> -->
                     </div>
                 </div>
-                { i = i + 1; }
-            }
-        }
-    </li>
-</ul>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <div class="card" style="width: 16rem;">
+                    <img class="card-img-top" src="@Url.Content(Model.imagesPath[i].ImagePath)" style="width: 250px; height:300px" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title  btn btn-outline-primary"><b> @Html.ActionLink("Play " + (string)movie.Name, "ShowVideo", "Videos", new { id = movie.Id }, null) </b></h5>
+                        <p class="card-text"></p>
+                    </div>
+                    <div class="card-body">
+
+                        <!--<h5> <a href="~/Videos/ShowVideo/" +  rental.Movie.Id class="card-link btn-primary btn-lg"><b> Go To Card Link </b></a> </h5> -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        { i = i + 1; }
+    }
+}

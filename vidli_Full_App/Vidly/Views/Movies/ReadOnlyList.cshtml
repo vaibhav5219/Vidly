@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<Vidly.Models.Movie>
 
 @{ ViewBag.Title = "Movies";
-                Layout = "~/Views/Shared/_Layout.cshtml"; }
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 <br />
-<div class = "btn btn-primary">Videos Lists</div>
+<div class="btn btn-primary">Videos Lists</div>
 <br />
 <p>
     @* Html.ActionLink("Add New Video", "New", "Movies", null, new { @class = "btn btn-primary" }) *@
 </p>
-<table id="movies" class="table table-bordered table-hover">
+<table id="movies" class="table table-bordered table-hover " style="width:100%;">
     <thead>
         <tr>
             <th>Movie</th>
