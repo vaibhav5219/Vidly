@@ -2460,6 +2460,7 @@
     <Content Include="Theme\vendor\fontawesome-free\webfonts\fa-solid-900.woff2" />
     <Content Include="Theme\vendor\jquery\jquery.min.map" />
     <Content Include="Theme\vendor\jquery\jquery.slim.min.map" />
+    <Content Include="Views\Customers\CustomerDetails.cshtml" />
     <None Include="Views\Customers\Details.cshtml" />
     <None Include="Views\Customers\index.cshtml" />
     <Content Include="Views\Movies\Details.cshtml" />

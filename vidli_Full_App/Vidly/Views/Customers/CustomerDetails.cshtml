@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "CustomersDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customer Details</h2>
+
+
+<hr />
+
+<table id="customers" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Movies</th>
+            <th>Date Rented</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //console.log($.post("/api/customers/details/"));
+
+            var table = $("#customers").DataTable({
+                ajax: {
+                    url: "/api/customers/details/",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "Rental.Name",
+                        render: function (data, type, rentals) {
+                            return "<a href='#" + "'>" + rentals.Movie.Name + "</a>";
+                        }
+                    },
+                    {
+                        data: "Rental.daterented",
+                        render: function (data, type, rentals) {
+                            return "<a href='#" + "'>" + Date(rentals.DateRented) + "</a>";
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+}
+@*,
+    error: function (e) {
+        console.log("There was an error with your request...");
+        console.log("error: " + JSON.stringify(e));
+    },
+    success: function (response) {
+
+        //var a = JSON.parse(response);
+    console.log("response data \n");
+    console.log(response);
+    }
+    *@

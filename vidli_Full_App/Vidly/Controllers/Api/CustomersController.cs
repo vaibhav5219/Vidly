@@ -10,6 +10,7 @@ using Vidly.App_Start;
 using Vidly.Models;
 using Vidly.Dtos;
 using AttributeRouting.Web.Http;
+using Microsoft.AspNet.Identity;
 
 namespace Vidly.Controllers.Api
 {
@@ -24,6 +25,7 @@ namespace Vidly.Controllers.Api
 
         //HttpGet
         [HttpGet]
+        [Authorize(Roles = "canManageMovies")]
         public IHttpActionResult GetAllCustomer(string query = null)  //IEnumerable<CustomersDto>
         {
             var customerQuery = _context.Customers
@@ -40,6 +42,7 @@ namespace Vidly.Controllers.Api
         }
 
         [HttpGet]
+        [Authorize(Roles = "canManageMovies")]
         public CustomersDto GetCustomer(int id)
         {
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
@@ -49,6 +52,7 @@ namespace Vidly.Controllers.Api
         }
 
         [HttpPost]
+        [Authorize(Roles = "canManageMovies")]
         public CustomersDto CreateCustomer(CustomersDto customerdto)
         {
             if (!ModelState.IsValid)
@@ -60,6 +64,7 @@ namespace Vidly.Controllers.Api
         }
 
         [HttpPut]
+        [Authorize(Roles = "canManageMovies")]
         public void UpdateCustomer(int id, CustomersDto customerdto)
         {
 
@@ -74,6 +79,8 @@ namespace Vidly.Controllers.Api
         }
 
         [HttpDelete]
+        [Authorize(Roles = "canManageMovies")]
+        [Authorize(Roles = "isAcustomer")]
         public void Delete(int id)
         {
             var customerdb = _context.Customers.SingleOrDefault(c => c.Id == id);
@@ -87,23 +94,24 @@ namespace Vidly.Controllers.Api
 
         [HttpGet]
         [Route("Details/{id}")]
-        public IHttpActionResult Details(int id=0)
+        [Authorize(Roles ="isAcustomer")]
+        public IHttpActionResult Details(int? id)
         {
-            if(id <= 0)
-            {
-                id = 1;
-            }
-            CustomerDetailsDto customerDetailsDto = new CustomerDetailsDto();
+            id = 1; 
+            string userId = User.Identity.GetUserId();
 
-            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+            //CustomerDetailsDto customerDetailsDto = new CustomerDetailsDto();
+            CustomerAspNetUser customerAspNetUser = _context.customerAspNetUsers.FirstOrDefault(c=>c.ApplicationUserId == userId);
+
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == customerAspNetUser.CustomerId);
             IEnumerable<Rental> rentals = _context.Rentals.Include(m => m.Movie).Include(m => m.Customer).ToList().Where(r => r.Customer.Id == customer.Id);
-            IEnumerable<Movie> movies = _context.Movies.Include(m => m.Genre).Where(m => m.Id == id);
+            //IEnumerable<Movie> movies = _context.Movies.Include(m => m.Genre).Where(m => m.Id == id);
 
-            customerDetailsDto.Customer = customer;
-            customerDetailsDto.Movies = movies;
-            customerDetailsDto.Rentals = rentals;
+            //customerDetailsDto.Customer = customer;
+            //customerDetailsDto.Movies = movies;
+            //customerDetailsDto.Rentals = rentals;
 
-            return Ok(customerDetailsDto);
+            return Ok(rentals);
         }
     }
 }

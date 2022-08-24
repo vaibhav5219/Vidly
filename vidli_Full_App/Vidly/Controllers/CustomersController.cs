@@ -9,7 +9,8 @@ using System.Dynamic;
 
 namespace Vidly.Controllers
 {
-    [Authorize(Roles = RoleName.CanManageMovies)]
+    [AllowAnonymous]
+    [RoutePrefix("customers/")]
     public class CustomersController : Controller
     {
         private ApplicationDbContext _context;
@@ -24,6 +25,7 @@ namespace Vidly.Controllers
             _context.Dispose();
         }
 
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult New()
         {
             var membershipTypes = _context.MembershipTypes.ToList();
@@ -36,6 +38,7 @@ namespace Vidly.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult Save(Customer customer)
         {
             if (!(User.IsInRole("canManageMovies") || User.IsInRole("isAcustomer")))
@@ -60,7 +63,8 @@ namespace Vidly.Controllers
 
             return RedirectToAction("Index", "Customers");
         }
-        
+
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ViewResult Index()
         {
             // Data caching
@@ -76,6 +80,7 @@ namespace Vidly.Controllers
 
              return View();
         }
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult Details(int? id)
         {
             if (!(User.IsInRole("canManageMovies")) )
@@ -118,6 +123,7 @@ namespace Vidly.Controllers
 
             return View(model);
         }
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult Edit(int id)
         {
             if (!(User.IsInRole("canManageMovies") ))
@@ -136,6 +142,20 @@ namespace Vidly.Controllers
             };
 
             return View("CustomerForm", viewModel);
+
+        }
+        [HttpGet]
+        [Authorize(Roles = RoleName.isAcustomer)]
+        [Authorize(Roles = RoleName.CanManageMovies)]
+        [Route("CustomerDetails/{id}")]
+        public ActionResult CustomerDetails(int? id)
+        {
+            if(id == null || id == 0)
+            {
+                id = 1;
+            }
+            //var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+            return View("CustomerDetails");
         }
     }
 }
