@@ -15,6 +15,7 @@ using Microsoft.AspNet.Identity;
 namespace Vidly.Controllers.Api
 {
     [RoutePrefix("api/Customers")]
+    [AllowAnonymous]
     public class CustomersController : ApiController
     {
         private ApplicationDbContext _context;
@@ -97,6 +98,10 @@ namespace Vidly.Controllers.Api
         [Authorize(Roles ="isAcustomer")]
         public IHttpActionResult Details(int? id)
         {
+            if (!(User.IsInRole("isAcustomer")))
+            {
+                return BadRequest();
+            }
             id = 1; 
             string userId = User.Identity.GetUserId();
 

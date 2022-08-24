@@ -155,6 +155,7 @@ namespace Vidly.Controllers
                 id = 1;
             }
             //var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+            ViewBag.id = id;
             return View("CustomerDetails");
         }
     }

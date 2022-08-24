@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "CustomersDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -27,8 +26,11 @@
 
             var table = $("#customers").DataTable({
                 ajax: {
-                    url: "/api/customers/details/",
-                    dataSrc: ""
+                    url: "/api/customers/details/" +@ViewBag.id,
+                    dataSrc: "",
+                    error: function (response) {
+                        return "/Home/index";
+                    }
                 },
                 columns: [
                     {

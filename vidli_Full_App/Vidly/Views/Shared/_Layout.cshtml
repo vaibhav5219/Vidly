@@ -369,10 +369,10 @@
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                      aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="#">
+                                    <div class="dropdown-item" >
                                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                         @Html.ActionLink("Profile", "CustomerDetails", "Customers", new { id = User.Identity.GetUserId() }, htmlAttributes: new { @class = "", id = "" })
-                                    </a>
+                                    </div>
                                     <div class="dropdown-item">
                                         <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                         @Html.ActionLink("Log In", "Login", "Account", routeValues: null, htmlAttributes: new { @class = "", id = "" })
